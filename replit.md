@@ -1,8 +1,8 @@
-# SecureAuth - Full-Stack Authentication Application
+# Quieted - Daily Memo Web Application
 
 ## Overview
 
-SecureAuth is a modern full-stack web application built with Express.js, React, and PostgreSQL. It provides secure user authentication using Google OAuth 2.0, featuring a clean and responsive UI built with shadcn/ui components. The application follows a monorepo structure with shared schemas and modern development practices.
+Quieted is a modern daily memo web application built with Express.js, React, and PostgreSQL. It provides secure user authentication using Google OAuth 2.0 and allows users to create one daily memo per day. The application features a clean, minimal design that's mobile-first and responsive (800px max width on desktop), built with shadcn/ui components and following modern development practices.
 
 ## System Architecture
 
@@ -38,6 +38,8 @@ SecureAuth is a modern full-stack web application built with Express.js, React, 
 ### Database Schema
 - **Users Table**: Stores Google OAuth profile data, tokens, and timestamps
 - **Sessions Table**: Manages user sessions with expiration tracking
+- **Daily Memos Table**: Stores daily memo entries with title, date, optional link, and content
+- **One Memo Per Day**: Users can create/edit only one memo per day with auto-set dates
 - **Type Safety**: Full TypeScript integration with inferred types
 
 ### UI Components
@@ -111,6 +113,12 @@ Changelog:
 - June 27, 2025. Simplified landing page to minimal design with only sign-in button
 - June 27, 2025. Fixed OAuth redirect URI mismatch - authentication now working successfully
 - June 27, 2025. Updated button to Google-style design with logo and proper styling
+- June 28, 2025. Built complete daily memo web app "Quieted" with matching design
+- June 28, 2025. Added daily memo database schema (title, date, link, content)
+- June 28, 2025. Implemented memo creation/editing form with back button and save functionality
+- June 28, 2025. Created "Quieted" landing page with header, memo list, and responsive design
+- June 28, 2025. Added one memo per day functionality with auto-set today's date
+- June 28, 2025. Full memo CRUD operations with PostgreSQL integration working successfully
 ```
 
 ## User Preferences

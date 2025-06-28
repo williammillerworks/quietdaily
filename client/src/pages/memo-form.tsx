@@ -53,7 +53,7 @@ export default function MemoForm({ mode, memoDate }: MemoFormProps) {
 
   const saveMutation = useMutation({
     mutationFn: async (data: { title: string; link?: string; content: string; date: string }) => {
-      return apiRequest("/api/memos", "POST", data);
+      return apiRequest("POST", "/api/memos", data);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/memos"] });

@@ -54,7 +54,10 @@ export default function Landing() {
         {/* Main Content */}
         <div className="flex-1 flex flex-col items-center justify-center">
           <div className="w-full max-w-md space-y-6">
-            <div className="border border-gray-200 rounded-lg p-4">
+            <div 
+              className="border border-gray-200 rounded-lg p-4 cursor-pointer hover:bg-gray-50"
+              onClick={handleGoogleLogin}
+            >
               <div className="flex justify-between items-center">
                 <span className="text-gray-400">Enter today's daily</span>
                 <span className="text-gray-400">{formatDate(new Date())}</span>

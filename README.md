@@ -1,204 +1,209 @@
-# Quiet Daily — Product Specification
+# Quieted - Daily Memo Web Application
 
-**Version:** 0.1-250626  
+**Version:** 1.0  
 **Author:** William Miller  
-**Date:** 2025-06-26  
-**Platform:** Responsive Web Application
+**Date:** 2025-06-28  
+**Platform:** Responsive Web Application  
+**Status:** ✅ Completed and Deployed
 
 ---
 
 ## Overview
 
-Quiet Daily is a minimalist, web-based journaling tool designed for intentional daily writing. Users are allowed to submit exactly one memo per day, consisting of a title, a markdown-formatted body, and one link or image. Once submitted, no edits or additional entries are permitted for that day. Entries are stored locally and shown in reverse chronological order. The product encourages mindful daily reflection with no distractions, accounts, or tracking.
+Quieted is a minimalist daily memo web application that allows users to create exactly one memo per day. Built with a clean, responsive design, the app encourages mindful daily reflection through intentional writing. Users authenticate with Google OAuth and can create daily entries containing a title, optional link, and content.
 
 ---
 
-## Core Features
+## ✅ Implemented Features
 
-### Daily Entry Rules
+### Authentication System
+- **Google OAuth 2.0**: Secure authentication using Google accounts
+- **Session Management**: Persistent user sessions with automatic login state
+- **Clean Login Flow**: Simple "Log in" button that redirects to Google authentication
 
-- Each user can submit one memo per calendar day.
-- After submission:
-  - The input editor is locked.
-- Timezone is based on the user's browser (local time) for MVP.
+### Daily Memo Functionality
+- **One Memo Per Day**: Users can create or edit only one memo per calendar day
+- **Auto-Date Assignment**: Today's date is automatically set for new memos
+- **Required Fields**: Title and content are mandatory; link is optional
+- **Real-time Save State**: Save button is enabled only when required fields are filled
 
----
+### User Interface
+- **"Quieted" Branding**: Clean, minimal header with app name
+- **Mobile-First Design**: Responsive layout with 800px max width on desktop
+- **Memo List View**: Shows current and previous memos in chronological order
+- **Entry Prompt**: "Enter today's daily" call-to-action when no memo exists for today
+- **Form Interface**: Clean input fields matching the provided design mockups
 
-## Entry List
-
-- Displayed as the main home page.
-- Sorted in reverse chronological order (most recent first).
-- Each item shows:
-  - Title (with maximum visible characters limited for layout)
-  - Date (automatically assigned, formatted as `YYYY-MM-DD`)
-- Clicking an item navigates to a full entry detail page with a back button.
-- When today’s entry is not yet created, show a special "Enter Today" prompt with distinct design and today’s date.
-
----
-
-## Entry Description Page
-
-- Displays:
-  - Title
-  - Date and time
-  - One image or link (optional)
-  - Content (rendered with Markdown)
-- Includes:
-  - Share button with public/private toggle
-  - Back button to return to entry list
+### Technical Architecture
+- **Frontend**: React with TypeScript, Vite for bundling
+- **Backend**: Express.js with TypeScript
+- **Database**: PostgreSQL with Drizzle ORM
+- **UI Components**: shadcn/ui built on Radix UI primitives
+- **Styling**: Tailwind CSS with responsive design
+- **State Management**: TanStack Query for server state
 
 ---
 
-## Entry Fields
+## Database Schema
 
-- **Title**: Short, single-line input (max 100 characters)
-- **Additional**: One of the following (either a link or one image)
-- **Content**: Multi-line input supporting basic Markdown
-
-### Supported Markdown Features
-
-- Headers (`#`, `##`, `###`)
-- Bold / italic
-- Lists
-
----
-
-## Entry Submission
-
-- Save button is enabled only when both title and content are non-empty.
-- Upon submission:
-  - Entry is stored with timestamp.
-  - Page transitions to a entry list with a toast
-
----
-
-## Authentication(for later feature)
-
-- Google Login (OAuth 2.0) is required.
-- Users can write before logging in.
-- Authentication is requested only at submission time.
-- By default, entries are private and scoped to the user.
-- When the user shares a link, the entry becomes publicly viewable (after confirmation).
-- Authentication system must:
-  - Identify user sessions
-  - Prevent unauthorized access to private entries (unless explicitly shared)
-
----
-
-## Interface Design
-
-### Design Reference
-
-- OpenAI
-- Clean, simple and modern.
-
-### List View (Default)
-
-- Displays previous entries with:
-  - Title
-  - Date
-- Fist entry will shows a "Today" at Title and Date if today's entry is missing.
-- When "Today" is clicked, editor view is open.
-- Mobile-friendly vertical scroll.
-
-### Editor View
-
-- Title input
-- Optional input for either link or image
-- Markdown content editor
-- Save button (disabled until all required fields are filled)
-
-### After Submission (Locked State)
-
-- Displays message: "Your memo for today has been saved."
-- Optionally shows today's entry as a read-only preview.
-
----
-
-## Data Model
-
-### Entry
-
-```json
-{
-  "user_id": "abc123",
-  "date": "2025-06-25",
-  "time": "08:15",
-  "title": "A Quiet Morning",
-  "additional": "https://example.com",
-  "content": "# Thoughts\nToday I woke up early and..."
-}
+### Users Table
+```sql
+- id (serial, primary key)
+- googleId (text, unique)
+- email (text, unique)
+- name (text)
+- givenName (text, optional)
+- picture (text, optional)
+- accessToken (text, optional)
+- refreshToken (text, optional)
+- createdAt (timestamp)
+- lastSignIn (timestamp)
 ```
 
-### User
+### Sessions Table
+```sql
+- id (text, primary key)
+- userId (foreign key to users)
+- expiresAt (timestamp)
+- createdAt (timestamp)
+```
 
-- Identified via Google account ID (OAuth subject) for next scope
-- No passwords or usernames
-- No public profiles in MVP
-
----
-
-## Technical Architecture
-
-### Frontend
-
-- Framework: React (Next.js preferred)
-- Styling: Tailwind CSS
-- Markdown Renderer: `react-markdown`, `remark-gfm`
-- Auth: `next-auth` with Google provider
-
-### Backend
-
-- Database: Firestore, Supabase, or similar
-- Middleware to enforce:
-  - One-entry-per-day
-  - Authentication for data access
-
-### Deployment
-
-- Platform: Vercel
-- Environment Config:
-  - Google OAuth credentials
-  - Secure API keys
+### Daily Memos Table
+```sql
+- id (serial, primary key)
+- userId (foreign key to users)
+- title (text, required)
+- date (text, format: YYYY-MM-DD, required)
+- link (text, optional)
+- content (text, required)
+- createdAt (timestamp)
+- updatedAt (timestamp)
+```
 
 ---
 
-## Scope
+## API Endpoints
 
-### MVP Includes
+### Authentication
+- `GET /api/auth/me` - Get current user
+- `GET /api/auth/google` - Initiate Google OAuth
+- `GET /api/auth/google/callback` - Handle OAuth callback
+- `POST /api/auth/logout` - Logout user
 
-- Google login
-- One memo per day rule
-- Markdown editor
-- Entry detail page
-- Entry list (reverse chronological)
-- Public sharing
-- Responsive layout
+### Daily Memos
+- `GET /api/memos` - Get all user memos
+- `GET /api/memos/:date` - Get memo for specific date
+- `POST /api/memos` - Create or update memo for today
 
-### MVP Excludes
+---
 
-- Editing previous entries
-- Deleting entries
-- Notifications or reminders
+## User Journey
+
+1. **Landing Page**: User sees "Quieted" header with "Enter today's daily" prompt
+2. **Authentication**: Clicking prompts Google OAuth login
+3. **Memo Creation**: Authenticated users can create today's memo with:
+   - Title (required)
+   - Current date (auto-set)
+   - Link (optional)
+   - Content (required)
+4. **Save & Return**: Valid memos save automatically and return to main list
+5. **Memo History**: Users can view and edit previous memos
+
+---
+
+## Design Specifications
+
+### Mobile-First Responsive
+- Mobile: Full width with padding
+- Desktop: Maximum 800px width, centered
+- Clean typography using system fonts
+- Minimal color palette (grays and black)
+
+### Component Styling
+- Input fields with bottom borders (no box borders)
+- Gray placeholder text
+- Hover states for interactive elements
+- Dark save button when form is valid
+- Back arrow navigation
+
+---
+
+## Development Setup
+
+### Prerequisites
+- Node.js 20+
+- PostgreSQL database
+- Google OAuth credentials
+
+### Environment Variables
+```
+DATABASE_URL=postgresql://...
+GOOGLE_CLIENT_ID=...
+GOOGLE_CLIENT_SECRET=...
+```
+
+### Installation & Running
+```bash
+npm install
+npm run db:push  # Apply database schema
+npm run dev      # Start development server
+```
+
+---
+
+## Deployment
+
+The application is configured for Replit deployment with:
+- **Autoscale**: Automatic scaling based on traffic
+- **Port Configuration**: External port 80 → internal port 5000
+- **Database**: PostgreSQL 16 module integration
+- **Environment**: Production-ready with secure session management
+
+---
+
+## Technical Decisions
+
+### Why Express.js + React?
+- Familiar stack for rapid development
+- Strong TypeScript support throughout
+- Excellent ecosystem for authentication and database integration
+
+### Why PostgreSQL + Drizzle?
+- Relational data model fits memo structure perfectly
+- Type-safe database operations with Drizzle ORM
+- Easy migrations and schema management
+
+### Why Google OAuth Only?
+- Simplifies authentication complexity
+- Most users already have Google accounts
+- Reduces password management burden
 
 ---
 
 ## Future Enhancements
 
-- Edit window (allowed until midnight)
-- Streak tracking
-- Export entries to Markdown
-- Optional themes (e.g., dark mode)
-- Mobile wrapper (PWA)
+### Potential Features (Not Implemented)
+- Markdown rendering for memo content
+- Export memos to various formats
+- Dark mode theme support
+- Public memo sharing with links
+- Edit window restrictions (e.g., until midnight)
+- Streak tracking for consistent daily writing
 
 ---
 
-## Next Steps
+## Project Status
 
-1. Initialize Next.js + Tailwind project
-2. Implement Google login (next-auth)
-3. Build basic Markdown editor
-4. Create entry submission + lock logic
-5. Display list of past entries
+✅ **Completed Features:**
+- Google OAuth authentication system
+- Daily memo CRUD operations
+- Responsive UI matching design specifications
+- One memo per day enforcement
+- PostgreSQL database integration
+- Production-ready deployment configuration
+
+🎯 **Current State:** Fully functional daily memo application ready for users
 
 ---
+
+**Built with ❤️ by William Miller - 2025**

@@ -33,8 +33,6 @@ export default function Landing() {
     window.location.href = authService.getGoogleAuthUrl();
   };
 
-
-
   const todayDateString = getTodayDate();
   const todayMemo = memos?.find((memo: DailyMemo) => memo.date === todayDateString);
 

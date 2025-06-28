@@ -4,7 +4,7 @@ import session from "express-session";
 import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import { storage } from "./storage";
-import { insertUserSchema } from "@shared/schema";
+import { insertUserSchema, insertDailyMemoSchema } from "@shared/schema";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Session configuration
@@ -123,6 +123,62 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Example protected route
   app.get("/api/profile", requireAuth, (req, res) => {
     res.json(req.user);
+  });
+
+  // Daily memo routes
+  app.get("/api/memos", requireAuth, async (req: any, res) => {
+    try {
+      const memos = await storage.getUserMemos(req.user.id);
+      res.json(memos);
+    } catch (error) {
+      console.error("Error fetching memos:", error);
+      res.status(500).json({ message: "Failed to fetch memos" });
+    }
+  });
+
+  app.get("/api/memos/:date", requireAuth, async (req: any, res) => {
+    try {
+      const { date } = req.params;
+      const memo = await storage.getMemoByDate(req.user.id, date);
+      if (!memo) {
+        return res.status(404).json({ message: "Memo not found" });
+      }
+      res.json(memo);
+    } catch (error) {
+      console.error("Error fetching memo:", error);
+      res.status(500).json({ message: "Failed to fetch memo" });
+    }
+  });
+
+  app.post("/api/memos", requireAuth, async (req: any, res) => {
+    try {
+      const memoData = insertDailyMemoSchema.parse({
+        ...req.body,
+        userId: req.user.id,
+      });
+
+      // Check if memo already exists for this date
+      const existingMemo = await storage.getMemoByDate(req.user.id, memoData.date);
+      if (existingMemo) {
+        // Update existing memo
+        const updatedMemo = await storage.updateMemo(existingMemo.id, {
+          title: memoData.title,
+          link: memoData.link,
+          content: memoData.content,
+        });
+        return res.json(updatedMemo);
+      }
+
+      // Create new memo
+      const memo = await storage.createMemo(memoData);
+      res.status(201).json(memo);
+    } catch (error) {
+      console.error("Error creating/updating memo:", error);
+      if (error instanceof Error && error.name === "ZodError") {
+        return res.status(400).json({ message: "Invalid memo data" });
+      }
+      res.status(500).json({ message: "Failed to save memo" });
+    }
   });
 
   const httpServer = createServer(app);

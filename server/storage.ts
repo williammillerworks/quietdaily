@@ -96,6 +96,45 @@ export class DatabaseStorage implements IStorage {
   async deleteUserSessions(userId: number): Promise<void> {
     await db.delete(sessions).where(eq(sessions.userId, userId));
   }
+
+  // Daily memo operations
+  async getUserMemos(userId: number): Promise<DailyMemo[]> {
+    const memos = await db
+      .select()
+      .from(dailyMemos)
+      .where(eq(dailyMemos.userId, userId))
+      .orderBy(desc(dailyMemos.date));
+    return memos;
+  }
+
+  async getMemoByDate(userId: number, date: string): Promise<DailyMemo | undefined> {
+    const [memo] = await db
+      .select()
+      .from(dailyMemos)
+      .where(and(eq(dailyMemos.userId, userId), eq(dailyMemos.date, date)));
+    return memo || undefined;
+  }
+
+  async createMemo(memo: InsertDailyMemo): Promise<DailyMemo> {
+    const [newMemo] = await db
+      .insert(dailyMemos)
+      .values(memo)
+      .returning();
+    return newMemo;
+  }
+
+  async updateMemo(id: number, updates: Partial<InsertDailyMemo>): Promise<DailyMemo | undefined> {
+    const [memo] = await db
+      .update(dailyMemos)
+      .set({ ...updates, updatedAt: new Date() })
+      .where(eq(dailyMemos.id, id))
+      .returning();
+    return memo || undefined;
+  }
+
+  async deleteMemo(id: number): Promise<void> {
+    await db.delete(dailyMemos).where(eq(dailyMemos.id, id));
+  }
 }
 
 export const storage = new DatabaseStorage();

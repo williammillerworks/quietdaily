@@ -1,6 +1,6 @@
-import { users, sessions, type User, type InsertUser, type Session } from "@shared/schema";
+import { users, sessions, dailyMemos, type User, type InsertUser, type Session, type DailyMemo, type InsertDailyMemo } from "@shared/schema";
 import { db } from "./db";
-import { eq } from "drizzle-orm";
+import { eq, and, desc } from "drizzle-orm";
 
 export interface IStorage {
   getUser(id: number): Promise<User | undefined>;
@@ -13,6 +13,13 @@ export interface IStorage {
   getSession(sessionId: string): Promise<Session | undefined>;
   deleteSession(sessionId: string): Promise<void>;
   deleteUserSessions(userId: number): Promise<void>;
+  
+  // Daily memo operations
+  getUserMemos(userId: number): Promise<DailyMemo[]>;
+  getMemoByDate(userId: number, date: string): Promise<DailyMemo | undefined>;
+  createMemo(memo: InsertDailyMemo): Promise<DailyMemo>;
+  updateMemo(id: number, updates: Partial<InsertDailyMemo>): Promise<DailyMemo | undefined>;
+  deleteMemo(id: number): Promise<void>;
 }
 
 export class DatabaseStorage implements IStorage {

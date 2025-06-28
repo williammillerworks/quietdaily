@@ -15,12 +15,6 @@ export const users = pgTable("users", {
   lastSignIn: timestamp("last_sign_in").defaultNow().notNull(),
 });
 
-export const insertUserSchema = createInsertSchema(users).omit({
-  id: true,
-  createdAt: true,
-  lastSignIn: true,
-});
-
 export const sessions = pgTable("sessions", {
   id: text("id").primaryKey(),
   userId: serial("user_id").references(() => users.id),
@@ -28,6 +22,31 @@ export const sessions = pgTable("sessions", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
+export const dailyMemos = pgTable("daily_memos", {
+  id: serial("id").primaryKey(),
+  userId: serial("user_id").references(() => users.id).notNull(),
+  title: text("title").notNull(),
+  date: text("date").notNull(), // Format: "2025-06-28"
+  link: text("link"),
+  content: text("content").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertUserSchema = createInsertSchema(users).omit({
+  id: true,
+  createdAt: true,
+  lastSignIn: true,
+});
+
+export const insertDailyMemoSchema = createInsertSchema(dailyMemos).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
 export type Session = typeof sessions.$inferSelect;
+export type DailyMemo = typeof dailyMemos.$inferSelect;
+export type InsertDailyMemo = z.infer<typeof insertDailyMemoSchema>;

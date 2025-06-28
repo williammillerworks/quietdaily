@@ -37,7 +37,7 @@ export default function MemoForm({ mode, memoDate }: MemoFormProps) {
   const displayDate = new Date(targetDate + 'T00:00:00');
 
   // Fetch existing memo if editing
-  const { data: existingMemo } = useQuery({
+  const { data: existingMemo } = useQuery<DailyMemo>({
     queryKey: ["/api/memos", targetDate],
     queryFn: getQueryFn({ on401: "returnNull" }),
     enabled: mode === "edit",
@@ -53,13 +53,7 @@ export default function MemoForm({ mode, memoDate }: MemoFormProps) {
 
   const saveMutation = useMutation({
     mutationFn: async (data: { title: string; link?: string; content: string; date: string }) => {
-      return apiRequest("/api/memos", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+      return apiRequest("/api/memos", "POST", data);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/memos"] });

@@ -23,7 +23,7 @@ export default function Landing() {
     queryFn: getQueryFn({ on401: "returnNull" }),
   });
 
-  const { data: memos = [] } = useQuery({
+  const { data: memos = [] } = useQuery<DailyMemo[]>({
     queryKey: ["/api/memos"],
     queryFn: getQueryFn({ on401: "returnNull" }),
     enabled: !!user,
@@ -34,7 +34,7 @@ export default function Landing() {
   };
 
   const todayDateString = getTodayDate();
-  const todayMemo = memos.find((memo: DailyMemo) => memo.date === todayDateString);
+  const todayMemo = memos?.find((memo: DailyMemo) => memo.date === todayDateString);
 
   if (!user) {
     return (
@@ -107,7 +107,7 @@ export default function Landing() {
           </div>
 
           {/* Previous memos */}
-          {memos.filter((memo: DailyMemo) => memo.date !== todayDateString).map((memo: DailyMemo) => (
+          {memos?.filter((memo: DailyMemo) => memo.date !== todayDateString).map((memo: DailyMemo) => (
             <div key={memo.id} className="border border-gray-200 rounded-lg">
               <Link href={`/memo/${memo.date}`}>
                 <div className="p-4 hover:bg-gray-50 cursor-pointer">

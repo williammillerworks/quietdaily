@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Landing from "@/pages/landing";
 import Dashboard from "@/pages/dashboard";
+import MemoForm from "@/pages/memo-form";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -12,6 +13,15 @@ function Router() {
     <Switch>
       <Route path="/" component={Landing} />
       <Route path="/dashboard" component={Dashboard} />
+      <Route path="/memo/create">
+        <MemoForm mode="create" />
+      </Route>
+      <Route path="/memo/edit">
+        <MemoForm mode="edit" />
+      </Route>
+      <Route path="/memo/:date">
+        {(params) => <MemoForm mode="edit" memoDate={params.date} />}
+      </Route>
       <Route path="/login-failed">
         <div className="min-h-screen flex items-center justify-center">
           <div className="text-center">

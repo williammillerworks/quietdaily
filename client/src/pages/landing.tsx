@@ -64,7 +64,7 @@ export default function Landing() {
           <h1 className="text-lg text-gray-500 font-bold">Quieted</h1>
           <button
             onClick={handleGoogleLogin}
-            className="text-sm font-light text-gray-500 hover:text-gray-600 transition-colors"
+            className="text-sm text-gray-500 hover:text-gray-600 transition-colors font-medium"
           >
             Log in
           </button>

@@ -61,7 +61,7 @@ export default function Landing() {
       <div className="min-h-screen bg-white flex flex-col max-w-[800px] mx-auto px-8 md:px-16">
         {/* Header */}
         <div className="flex justify-between items-start pt-8 pb-12">
-          <h1 className="text-lg font-light text-gray-500">Quieted</h1>
+          <h1 className="text-lg text-gray-500 font-bold">Quieted</h1>
           <button
             onClick={handleGoogleLogin}
             className="text-sm font-light text-gray-500 hover:text-gray-600 transition-colors"
@@ -69,7 +69,6 @@ export default function Landing() {
             Log in
           </button>
         </div>
-
         {/* Main Content */}
         <div className="flex-1">
           {/* Input Area */}

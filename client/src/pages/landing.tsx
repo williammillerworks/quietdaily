@@ -76,7 +76,7 @@ export default function Landing() {
             <Link href="/memo/create">
               <div className="pb-3 border-b border-gray-200 cursor-pointer">
                 <div className="flex justify-between items-center">
-                  <span className="font-light text-gray-500 text-[15px]">Enter today's daily</span>
+                  <span className="font-light text-[15px] text-[#b1b4b5]">Enter today's daily</span>
                   <span className="text-sm font-light text-gray-500">{formatDate(new Date())}</span>
                 </div>
               </div>

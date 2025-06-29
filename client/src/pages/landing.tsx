@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { authService } from "@/lib/auth";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link } from "wouter";
 import { getQueryFn } from "@/lib/queryClient";
 import type { DailyMemo } from "@shared/schema";
@@ -18,6 +18,8 @@ function getTodayDate(): string {
 }
 
 export default function Landing() {
+  const queryClient = useQueryClient();
+  
   const { data: user } = useQuery({
     queryKey: ["/api/auth/me"],
     queryFn: getQueryFn({ on401: "returnNull" }),
@@ -31,6 +33,18 @@ export default function Landing() {
 
   const handleGoogleLogin = () => {
     window.location.href = authService.getGoogleAuthUrl();
+  };
+
+  const handleLogout = async () => {
+    try {
+      await authService.logout();
+      // Invalidate all queries to refresh the UI
+      queryClient.invalidateQueries();
+      // Clear all cached data
+      queryClient.clear();
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
   };
 
   const todayDateString = getTodayDate();
@@ -81,7 +95,7 @@ export default function Landing() {
         <div className="flex items-center space-x-12">
           <span className="text-sm font-light text-gray-500 hidden md:block">{formatDate(new Date())}</span>
           <button
-            onClick={() => authService.logout()}
+            onClick={handleLogout}
             className="text-sm font-light text-gray-500 hover:text-gray-600 transition-colors"
           >
             Log out

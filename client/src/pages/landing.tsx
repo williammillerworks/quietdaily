@@ -60,7 +60,7 @@ export default function Landing() {
     return (
       <div className="min-h-screen bg-white flex flex-col max-w-[800px] mx-auto px-8 md:px-16">
         {/* Header */}
-        <div className="flex justify-between items-start pt-8 pb-12">
+        <div className="flex justify-between items-start pt-[24px] pb-[24px]">
           <h1 className="text-lg text-gray-500 font-bold">Quieted</h1>
           <button
             onClick={handleGoogleLogin}

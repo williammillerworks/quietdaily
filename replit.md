@@ -130,4 +130,8 @@ Changelog:
 
 ```
 Preferred communication style: Simple, everyday language.
+Git configuration: Always use williammillerworks <william.miller.works@gmail.com> for commits.
+To prevent attribution issues, set global git config:
+  git config --global user.name "williammillerworks"
+  git config --global user.email "william.miller.works@gmail.com"
 ```

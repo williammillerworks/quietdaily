@@ -75,21 +75,25 @@ export default function MemoForm({ mode, memoDate }: MemoFormProps) {
   const isFormValid = title.trim() && content.trim();
 
   return (
-    <div className="min-h-screen bg-white max-w-[800px] mx-auto px-4">
+    <div className="min-h-screen bg-white max-w-[800px] mx-auto px-8 md:px-16">
       {/* Header with back button */}
-      <div className="flex items-center py-6">
-        <Button
-          variant="ghost"
-          size="icon"
+      <div className="flex items-center pt-8 pb-12">
+        <button
           onClick={() => setLocation("/")}
-          className="mr-4"
+          className="text-gray-300 hover:text-gray-400 transition-colors mr-4"
         >
           <ArrowLeft className="h-5 w-5" />
-        </Button>
+        </button>
+        <div className="flex-1 flex justify-between items-center">
+          <span className="text-lg font-light text-gray-300">Quieted</span>
+          <span className="text-sm font-light text-gray-300">
+            {formatDisplayDate(displayDate)}
+          </span>
+        </div>
       </div>
 
       {/* Form */}
-      <div className="space-y-6">
+      <div className="space-y-8">
         {/* Title Input */}
         <div>
           <Input
@@ -97,15 +101,8 @@ export default function MemoForm({ mode, memoDate }: MemoFormProps) {
             placeholder="Title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="text-lg border-0 border-b border-gray-200 rounded-none bg-transparent px-0 py-3 focus-visible:ring-0 focus-visible:border-gray-400 placeholder:text-gray-400"
+            className="text-base font-light border-0 border-b border-gray-200 rounded-none bg-transparent px-0 py-3 focus-visible:ring-0 focus-visible:border-gray-300 placeholder:text-gray-300"
           />
-        </div>
-
-        {/* Date Display */}
-        <div className="flex justify-end">
-          <span className="text-gray-900 font-medium">
-            {formatDisplayDate(displayDate)}
-          </span>
         </div>
 
         {/* Link Input */}
@@ -115,7 +112,7 @@ export default function MemoForm({ mode, memoDate }: MemoFormProps) {
             placeholder="Link"
             value={link}
             onChange={(e) => setLink(e.target.value)}
-            className="border-0 border-b border-gray-200 rounded-none bg-transparent px-0 py-3 focus-visible:ring-0 focus-visible:border-gray-400 placeholder:text-gray-400"
+            className="text-base font-light border-0 border-b border-gray-200 rounded-none bg-transparent px-0 py-3 focus-visible:ring-0 focus-visible:border-gray-300 placeholder:text-gray-300"
           />
         </div>
 
@@ -125,24 +122,24 @@ export default function MemoForm({ mode, memoDate }: MemoFormProps) {
             placeholder="Contents"
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            className="min-h-[200px] border-0 border-b border-gray-200 rounded-none bg-transparent px-0 py-3 resize-none focus-visible:ring-0 focus-visible:border-gray-400 placeholder:text-gray-400"
+            className="min-h-[300px] text-base font-light border-0 border-b border-gray-200 rounded-none bg-transparent px-0 py-3 resize-none focus-visible:ring-0 focus-visible:border-gray-300 placeholder:text-gray-300"
           />
         </div>
       </div>
 
       {/* Save Button */}
-      <div className="fixed bottom-6 right-6">
-        <Button
+      <div className="fixed bottom-8 right-8 md:right-16">
+        <button
           onClick={handleSave}
           disabled={!isFormValid || saveMutation.isPending}
-          className={`rounded-full px-6 py-3 font-medium ${
+          className={`px-6 py-2 text-sm font-light transition-colors ${
             isFormValid 
-              ? "bg-gray-900 hover:bg-gray-800 text-white" 
-              : "bg-gray-200 text-gray-400 cursor-not-allowed"
+              ? "bg-gray-300 hover:bg-gray-400 text-white" 
+              : "bg-gray-100 text-gray-300 cursor-not-allowed"
           }`}
         >
           {saveMutation.isPending ? "Saving..." : "Save"}
-        </Button>
+        </button>
       </div>
     </div>
   );

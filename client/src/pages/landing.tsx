@@ -38,30 +38,35 @@ export default function Landing() {
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-white flex flex-col max-w-[800px] mx-auto px-4">
+      <div className="min-h-screen bg-white flex flex-col max-w-[800px] mx-auto px-8 md:px-16">
         {/* Header */}
-        <div className="flex justify-between items-center py-6">
-          <h1 className="text-xl font-normal text-gray-600">Quieted</h1>
-          <Button
-            onClick={handleGoogleLogin}
-            variant="ghost"
-            className="text-gray-900 hover:bg-gray-50 px-4"
-          >
-            Log in
-          </Button>
+        <div className="flex justify-between items-start pt-8 pb-12">
+          <h1 className="text-lg font-light text-gray-300">Quieted</h1>
+          <div className="flex items-center space-x-12">
+            <span className="text-sm font-light text-gray-300 hidden md:block">{formatDate(new Date())}</span>
+            <button
+              onClick={handleGoogleLogin}
+              className="text-sm font-light text-gray-300 hover:text-gray-400 transition-colors"
+            >
+              Log in
+            </button>
+          </div>
         </div>
 
         {/* Main Content */}
-        <div className="flex-1 flex flex-col items-center justify-center">
-          <div className="w-full max-w-md space-y-6">
+        <div className="flex-1">
+          {/* Mobile: Show date above input */}
+          <div className="block md:hidden mb-8">
+            <span className="text-sm font-light text-gray-300">{formatDate(new Date())}</span>
+          </div>
+          
+          {/* Input Area */}
+          <div className="w-full">
             <div 
-              className="border border-gray-200 rounded-lg p-4 cursor-pointer hover:bg-gray-50"
+              className="pb-3 border-b border-gray-200 cursor-pointer"
               onClick={handleGoogleLogin}
             >
-              <div className="flex justify-between items-center">
-                <span className="text-gray-400">Enter today's daily</span>
-                <span className="text-gray-400">{formatDate(new Date())}</span>
-              </div>
+              <span className="text-base font-light text-gray-300">Enter today's daily</span>
             </div>
           </div>
         </div>
@@ -70,39 +75,46 @@ export default function Landing() {
   }
 
   return (
-    <div className="min-h-screen bg-white flex flex-col max-w-[800px] mx-auto px-4">
+    <div className="min-h-screen bg-white flex flex-col max-w-[800px] mx-auto px-8 md:px-16">
       {/* Header */}
-      <div className="flex justify-between items-center py-6">
-        <h1 className="text-xl font-normal text-gray-600">Quieted</h1>
-        <Button
-          onClick={() => authService.logout()}
-          variant="ghost"
-          className="text-gray-900 hover:bg-gray-50 px-4"
-        >
-          Log out
-        </Button>
+      <div className="flex justify-between items-start pt-8 pb-12">
+        <h1 className="text-lg font-light text-gray-300">Quieted</h1>
+        <div className="flex items-center space-x-12">
+          <span className="text-sm font-light text-gray-300 hidden md:block">{formatDate(new Date())}</span>
+          <button
+            onClick={() => authService.logout()}
+            className="text-sm font-light text-gray-300 hover:text-gray-400 transition-colors"
+          >
+            Log out
+          </button>
+        </div>
       </div>
 
       {/* Main Content */}
       <div className="flex-1">
-        <div className="space-y-4">
+        <div className="space-y-8">
+          {/* Mobile: Show date above content */}
+          <div className="block md:hidden">
+            <span className="text-sm font-light text-gray-300">{formatDate(new Date())}</span>
+          </div>
+          
           {/* Today's memo entry */}
-          <div className="border border-gray-200 rounded-lg">
+          <div className="w-full">
             {todayMemo ? (
               <Link href="/memo/edit">
-                <div className="p-4 hover:bg-gray-50 cursor-pointer">
-                  <div className="flex justify-between items-start mb-2">
-                    <h3 className="text-gray-900 font-medium">{todayMemo.title}</h3>
-                    <span className="text-gray-500 text-sm">{formatDate(new Date())}</span>
+                <div className="pb-3 border-b border-gray-200 cursor-pointer">
+                  <div className="flex justify-between items-start">
+                    <h3 className="text-base font-light text-gray-400">{todayMemo.title}</h3>
+                    <span className="text-sm font-light text-gray-300 hidden md:block">{formatDate(new Date())}</span>
                   </div>
                 </div>
               </Link>
             ) : (
               <Link href="/memo/create">
-                <div className="p-4 hover:bg-gray-50 cursor-pointer">
+                <div className="pb-3 border-b border-gray-200 cursor-pointer">
                   <div className="flex justify-between items-center">
-                    <span className="text-gray-400">Enter today's daily</span>
-                    <span className="text-gray-400">{formatDate(new Date())}</span>
+                    <span className="text-base font-light text-gray-300">Enter today's daily</span>
+                    <span className="text-sm font-light text-gray-300 hidden md:block">{formatDate(new Date())}</span>
                   </div>
                 </div>
               </Link>
@@ -111,12 +123,12 @@ export default function Landing() {
 
           {/* Previous memos */}
           {memos?.filter((memo: DailyMemo) => memo.date !== todayDateString).map((memo: DailyMemo) => (
-            <div key={memo.id} className="border border-gray-200 rounded-lg">
+            <div key={memo.id} className="w-full">
               <Link href={`/memo/${memo.date}`}>
-                <div className="p-4 hover:bg-gray-50 cursor-pointer">
-                  <div className="flex justify-between items-start mb-2">
-                    <h3 className="text-gray-900 font-medium">{memo.title}</h3>
-                    <span className="text-gray-500 text-sm">
+                <div className="pb-3 border-b border-gray-200 cursor-pointer">
+                  <div className="flex justify-between items-start">
+                    <h3 className="text-base font-light text-gray-400">{memo.title}</h3>
+                    <span className="text-sm font-light text-gray-300">
                       {formatDate(new Date(memo.date + 'T00:00:00'))}
                     </span>
                   </div>

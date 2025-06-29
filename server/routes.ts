@@ -129,6 +129,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/memos", requireAuth, async (req: any, res) => {
     try {
       const memos = await storage.getUserMemos(req.user.id);
+      console.log('API returning memos count:', memos.length);
+      console.log('First memo:', memos[0]);
+      res.setHeader('Cache-Control', 'no-cache');
       res.json(memos);
     } catch (error) {
       console.error("Error fetching memos:", error);

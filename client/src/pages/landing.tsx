@@ -29,6 +29,8 @@ export default function Landing() {
     queryKey: ["/api/memos"],
     queryFn: getQueryFn({ on401: "returnNull" }),
     enabled: !!user,
+    staleTime: 0, // Always fetch fresh data
+    cacheTime: 0, // Don't cache data
   });
 
   const handleGoogleLogin = () => {

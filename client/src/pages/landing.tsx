@@ -60,29 +60,24 @@ export default function Landing() {
         {/* Header */}
         <div className="flex justify-between items-start pt-8 pb-12">
           <h1 className="text-lg font-light text-gray-500">Quieted</h1>
-          <div className="flex items-center space-x-12">
-            <span className="text-sm font-light text-gray-500 hidden md:block">{formatDate(new Date())}</span>
-            <button
-              onClick={handleGoogleLogin}
-              className="text-sm font-light text-gray-500 hover:text-gray-600 transition-colors"
-            >
-              Log in
-            </button>
-          </div>
+          <button
+            onClick={handleGoogleLogin}
+            className="text-sm font-light text-gray-500 hover:text-gray-600 transition-colors"
+          >
+            Log in
+          </button>
         </div>
 
         {/* Main Content */}
         <div className="flex-1">
-          {/* Mobile: Show date above input */}
-          <div className="block md:hidden mb-8">
-            <span className="text-sm font-light text-gray-500">{formatDate(new Date())}</span>
-          </div>
-          
           {/* Input Area */}
           <div className="w-full">
             <Link href="/memo/create">
               <div className="pb-3 border-b border-gray-200 cursor-pointer">
-                <span className="text-base font-light text-gray-500">Enter today's daily</span>
+                <div className="flex justify-between items-center">
+                  <span className="text-base font-light text-gray-500">Enter today's daily</span>
+                  <span className="text-sm font-light text-gray-500">{formatDate(new Date())}</span>
+                </div>
               </div>
             </Link>
           </div>
@@ -96,25 +91,17 @@ export default function Landing() {
       {/* Header */}
       <div className="flex justify-between items-start pt-8 pb-12">
         <h1 className="text-lg font-light text-gray-500">Quieted</h1>
-        <div className="flex items-center space-x-12">
-          <span className="text-sm font-light text-gray-500 hidden md:block">{formatDate(new Date())}</span>
-          <button
-            onClick={handleLogout}
-            className="text-sm font-light text-gray-500 hover:text-gray-600 transition-colors"
-          >
-            Log out
-          </button>
-        </div>
+        <button
+          onClick={handleLogout}
+          className="text-sm font-light text-gray-500 hover:text-gray-600 transition-colors"
+        >
+          Log out
+        </button>
       </div>
 
       {/* Main Content */}
       <div className="flex-1">
         <div className="space-y-8">
-          {/* Mobile: Show date above content */}
-          <div className="block md:hidden">
-            <span className="text-sm font-light text-gray-500">{formatDate(new Date())}</span>
-          </div>
-          
           {/* Today's memo entry */}
           <div className="w-full">
             {todayMemo ? (
@@ -122,7 +109,7 @@ export default function Landing() {
                 <div className="pb-3 border-b border-gray-200 cursor-pointer">
                   <div className="flex justify-between items-start">
                     <h3 className="text-base font-light text-gray-600">{todayMemo.title}</h3>
-                    <span className="text-sm font-light text-gray-500 hidden md:block">{formatDate(new Date())}</span>
+                    <span className="text-sm font-light text-gray-500">{formatDate(new Date())}</span>
                   </div>
                 </div>
               </Link>
@@ -131,7 +118,7 @@ export default function Landing() {
                 <div className="pb-3 border-b border-gray-200 cursor-pointer">
                   <div className="flex justify-between items-center">
                     <span className="text-base font-light text-gray-500">Enter today's daily</span>
-                    <span className="text-sm font-light text-gray-500 hidden md:block">{formatDate(new Date())}</span>
+                    <span className="text-sm font-light text-gray-500">{formatDate(new Date())}</span>
                   </div>
                 </div>
               </Link>

@@ -35,10 +35,7 @@ export default function MemoView({ memoDate }: MemoViewProps) {
     gcTime: 0,
   });
 
-  console.log('MemoView - targetDate:', targetDate);
-  console.log('MemoView - memo:', memo);
-  console.log('MemoView - isLoading:', isLoading);
-  console.log('MemoView - error:', error);
+
 
   if (isLoading) {
     return (

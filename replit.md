@@ -119,6 +119,11 @@ Changelog:
 - June 28, 2025. Created "Quieted" landing page with header, memo list, and responsive design
 - June 28, 2025. Added one memo per day functionality with auto-set today's date
 - June 28, 2025. Full memo CRUD operations with PostgreSQL integration working successfully
+- June 29, 2025. Fixed individual memo view functionality - now properly displays title, link, and content
+- June 29, 2025. Added 15 diverse fake memo entries spanning June 15-29, 2025 for demo purposes
+- June 29, 2025. Reduced memo list spacing from 32px to 12px for tighter layout
+- June 29, 2025. Changed font weight from 300 (font-light) to 400 (font-normal) for better readability
+- June 29, 2025. Fixed React Query URL construction for individual memo API calls
 ```
 
 ## User Preferences

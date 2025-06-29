@@ -129,9 +129,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/memos", requireAuth, async (req: any, res) => {
     try {
       const memos = await storage.getUserMemos(req.user.id);
-      console.log('API returning memos count:', memos.length);
-      console.log('First memo:', memos[0]);
-      res.setHeader('Cache-Control', 'no-cache');
       res.json(memos);
     } catch (error) {
       console.error("Error fetching memos:", error);
@@ -142,9 +139,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/memos/:date", requireAuth, async (req: any, res) => {
     try {
       const { date } = req.params;
-      console.log('Fetching memo for date:', date, 'userId:', req.user.id);
       const memo = await storage.getMemoByDate(req.user.id, date);
-      console.log('Found memo:', memo ? `id:${memo.id} title:${memo.title}` : 'null');
       if (!memo) {
         return res.status(404).json({ message: "Memo not found" });
       }

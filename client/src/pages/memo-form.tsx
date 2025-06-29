@@ -69,7 +69,7 @@ export default function MemoForm({ mode, memoDate }: MemoFormProps) {
   });
 
   const handleSave = () => {
-    if (title.trim() && content.trim()) {
+    if (title?.trim() && content?.trim()) {
       if (!user) {
         // If user is not authenticated, redirect to Google auth
         window.location.href = authService.getGoogleAuthUrl();
@@ -77,7 +77,7 @@ export default function MemoForm({ mode, memoDate }: MemoFormProps) {
         // User is authenticated, save the memo
         saveMutation.mutate({
           title: title.trim(),
-          link: link.trim() || undefined,
+          link: link?.trim() || undefined,
           content: content.trim(),
           date: targetDate,
         });
@@ -85,7 +85,7 @@ export default function MemoForm({ mode, memoDate }: MemoFormProps) {
     }
   };
 
-  const isFormValid = title.trim() && content.trim();
+  const isFormValid = title?.trim() && content?.trim();
 
   return (
     <div className="min-h-screen bg-white max-w-[800px] mx-auto px-8 md:px-16">

@@ -1,8 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { authService } from "@/lib/auth";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Link } from "wouter";
-import { getQueryFn } from "@/lib/queryClient";
+import { getQueryFn, apiRequest } from "@/lib/queryClient";
 import type { DailyMemo } from "@shared/schema";
 
 function formatDate(date: Date): string {
@@ -35,16 +35,20 @@ export default function Landing() {
     window.location.href = authService.getGoogleAuthUrl();
   };
 
-  const handleLogout = async () => {
-    try {
-      await authService.logout();
-      // Invalidate all queries to refresh the UI
-      queryClient.invalidateQueries();
-      // Clear all cached data
-      queryClient.clear();
-    } catch (error) {
-      console.error("Logout failed:", error);
-    }
+  const logoutMutation = useMutation({
+    mutationFn: async () => {
+      return apiRequest("POST", "/api/auth/logout");
+    },
+    onSuccess: () => {
+      // Clear all user-related data
+      queryClient.setQueryData(["/api/auth/me"], null);
+      queryClient.removeQueries({ queryKey: ["/api/memos"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/auth/me"] });
+    },
+  });
+
+  const handleLogout = () => {
+    logoutMutation.mutate();
   };
 
   const todayDateString = getTodayDate();

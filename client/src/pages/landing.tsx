@@ -108,8 +108,8 @@ export default function Landing() {
               <Link href="/memo/view">
                 <div className="pb-3 border-b border-gray-200 cursor-pointer">
                   <div className="flex justify-between items-start">
-                    <h3 className="text-base font-light text-gray-600">{todayMemo.title}</h3>
-                    <span className="text-sm font-light text-gray-500">{formatDate(new Date())}</span>
+                    <h3 className="text-base font-normal text-gray-600">{todayMemo.title}</h3>
+                    <span className="text-sm font-normal text-gray-500">{formatDate(new Date())}</span>
                   </div>
                 </div>
               </Link>
@@ -117,8 +117,8 @@ export default function Landing() {
               <Link href="/memo/create">
                 <div className="pb-3 border-b border-gray-200 cursor-pointer">
                   <div className="flex justify-between items-center">
-                    <span className="text-base font-light text-gray-500">Enter today's daily</span>
-                    <span className="text-sm font-light text-gray-500">{formatDate(new Date())}</span>
+                    <span className="text-base font-normal text-gray-500">Enter today's daily</span>
+                    <span className="text-sm font-normal text-gray-500">{formatDate(new Date())}</span>
                   </div>
                 </div>
               </Link>
@@ -131,8 +131,8 @@ export default function Landing() {
               <Link href={`/memo/view/${memo.date}`}>
                 <div className="pb-3 border-b border-gray-200 cursor-pointer">
                   <div className="flex justify-between items-start">
-                    <h3 className="text-base font-light text-gray-600">{memo.title}</h3>
-                    <span className="text-sm font-light text-gray-500">
+                    <h3 className="text-base font-normal text-gray-600">{memo.title}</h3>
+                    <span className="text-sm font-normal text-gray-500">
                       {formatDate(new Date(memo.date + 'T00:00:00'))}
                     </span>
                   </div>

@@ -30,7 +30,7 @@ export default function Landing() {
     queryFn: getQueryFn({ on401: "returnNull" }),
     enabled: !!user,
     staleTime: 0, // Always fetch fresh data
-    cacheTime: 0, // Don't cache data
+    gcTime: 0, // Don't cache data (React Query v5 uses gcTime instead of cacheTime)
   });
 
   const handleGoogleLogin = () => {

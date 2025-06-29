@@ -27,10 +27,18 @@ export default function MemoView({ memoDate }: MemoViewProps) {
   const displayDate = new Date(targetDate + 'T00:00:00');
 
   // Fetch memo data
-  const { data: memo, isLoading } = useQuery<DailyMemo>({
-    queryKey: ["/api/memos", targetDate],
+  const { data: memo, isLoading, error } = useQuery<DailyMemo>({
+    queryKey: [`/api/memos/${targetDate}`],
     queryFn: getQueryFn({ on401: "returnNull" }),
+    enabled: true,
+    staleTime: 0,
+    gcTime: 0,
   });
+
+  console.log('MemoView - targetDate:', targetDate);
+  console.log('MemoView - memo:', memo);
+  console.log('MemoView - isLoading:', isLoading);
+  console.log('MemoView - error:', error);
 
   if (isLoading) {
     return (

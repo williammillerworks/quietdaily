@@ -101,7 +101,7 @@ export default function Landing() {
 
       {/* Main Content */}
       <div className="flex-1">
-        <div className="space-y-8">
+        <div className="space-y-3">
           {/* Today's memo entry */}
           <div className="w-full">
             {todayMemo ? (

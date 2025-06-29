@@ -100,7 +100,7 @@ export default function Landing() {
           {/* Today's memo entry */}
           <div className="w-full">
             {todayMemo ? (
-              <Link href="/memo/edit">
+              <Link href="/memo/view">
                 <div className="pb-3 border-b border-gray-200 cursor-pointer">
                   <div className="flex justify-between items-start">
                     <h3 className="text-base font-light text-gray-600">{todayMemo.title}</h3>
@@ -123,7 +123,7 @@ export default function Landing() {
           {/* Previous memos */}
           {memos?.filter((memo: DailyMemo) => memo.date !== todayDateString).map((memo: DailyMemo) => (
             <div key={memo.id} className="w-full">
-              <Link href={`/memo/${memo.date}`}>
+              <Link href={`/memo/view/${memo.date}`}>
                 <div className="pb-3 border-b border-gray-200 cursor-pointer">
                   <div className="flex justify-between items-start">
                     <h3 className="text-base font-light text-gray-600">{memo.title}</h3>

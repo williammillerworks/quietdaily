@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import Landing from "@/pages/landing";
 import Dashboard from "@/pages/dashboard";
 import MemoForm from "@/pages/memo-form";
+import MemoView from "@/pages/memo-view";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -19,8 +20,14 @@ function Router() {
       <Route path="/memo/edit">
         <MemoForm mode="edit" />
       </Route>
-      <Route path="/memo/:date">
+      <Route path="/memo/edit/:date">
         {(params) => <MemoForm mode="edit" memoDate={params.date} />}
+      </Route>
+      <Route path="/memo/view/:date">
+        {(params) => <MemoView memoDate={params.date} />}
+      </Route>
+      <Route path="/memo/view">
+        <MemoView />
       </Route>
       <Route path="/login-failed">
         <div className="min-h-screen flex items-center justify-center">

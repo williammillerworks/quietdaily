@@ -93,13 +93,13 @@ export default function MemoForm({ mode, memoDate }: MemoFormProps) {
       <div className="flex items-center pt-8 pb-12">
         <button
           onClick={() => setLocation("/")}
-          className="text-gray-300 hover:text-gray-400 transition-colors mr-4"
+          className="text-gray-500 hover:text-gray-600 transition-colors mr-4"
         >
           <ArrowLeft className="h-5 w-5" />
         </button>
         <div className="flex-1 flex justify-between items-center">
-          <span className="text-lg font-light text-gray-300">Quieted</span>
-          <span className="text-sm font-light text-gray-300">
+          <span className="text-lg font-light text-gray-500">Quieted</span>
+          <span className="text-sm font-light text-gray-500">
             {formatDisplayDate(displayDate)}
           </span>
         </div>
@@ -114,7 +114,7 @@ export default function MemoForm({ mode, memoDate }: MemoFormProps) {
             placeholder="Title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="text-base font-light border-0 border-b border-gray-200 rounded-none bg-transparent px-0 py-3 focus-visible:ring-0 focus-visible:border-gray-300 placeholder:text-gray-300"
+            className="text-base font-light border-0 border-b border-gray-200 rounded-none bg-transparent px-0 py-3 focus-visible:ring-0 focus-visible:border-gray-300 placeholder:text-gray-500"
           />
         </div>
 
@@ -125,7 +125,7 @@ export default function MemoForm({ mode, memoDate }: MemoFormProps) {
             placeholder="Link"
             value={link}
             onChange={(e) => setLink(e.target.value)}
-            className="text-base font-light border-0 border-b border-gray-200 rounded-none bg-transparent px-0 py-3 focus-visible:ring-0 focus-visible:border-gray-300 placeholder:text-gray-300"
+            className="text-base font-light border-0 border-b border-gray-200 rounded-none bg-transparent px-0 py-3 focus-visible:ring-0 focus-visible:border-gray-300 placeholder:text-gray-500"
           />
         </div>
 
@@ -135,7 +135,7 @@ export default function MemoForm({ mode, memoDate }: MemoFormProps) {
             placeholder="Contents"
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            className="min-h-[300px] text-base font-light border-0 border-b border-gray-200 rounded-none bg-transparent px-0 py-3 resize-none focus-visible:ring-0 focus-visible:border-gray-300 placeholder:text-gray-300"
+            className="min-h-[300px] text-base font-light border-0 border-b border-gray-200 rounded-none bg-transparent px-0 py-3 resize-none focus-visible:ring-0 focus-visible:border-gray-300 placeholder:text-gray-500"
           />
         </div>
       </div>

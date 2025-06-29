@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { apiRequest, getQueryFn } from "@/lib/queryClient";
+import { authService } from "@/lib/auth";
 import type { DailyMemo } from "@shared/schema";
 
 function formatDisplayDate(date: Date): string {
@@ -36,6 +37,12 @@ export default function MemoForm({ mode, memoDate }: MemoFormProps) {
   const targetDate = memoDate || getTodayDate();
   const displayDate = new Date(targetDate + 'T00:00:00');
 
+  // Check if user is authenticated
+  const { data: user } = useQuery({
+    queryKey: ["/api/auth/me"],
+    queryFn: getQueryFn({ on401: "returnNull" }),
+  });
+
   // Fetch existing memo if editing
   const { data: existingMemo } = useQuery<DailyMemo>({
     queryKey: ["/api/memos", targetDate],
@@ -63,12 +70,18 @@ export default function MemoForm({ mode, memoDate }: MemoFormProps) {
 
   const handleSave = () => {
     if (title.trim() && content.trim()) {
-      saveMutation.mutate({
-        title: title.trim(),
-        link: link.trim() || undefined,
-        content: content.trim(),
-        date: targetDate,
-      });
+      if (!user) {
+        // If user is not authenticated, redirect to Google auth
+        window.location.href = authService.getGoogleAuthUrl();
+      } else {
+        // User is authenticated, save the memo
+        saveMutation.mutate({
+          title: title.trim(),
+          link: link.trim() || undefined,
+          content: content.trim(),
+          date: targetDate,
+        });
+      }
     }
   };
 

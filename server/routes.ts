@@ -89,7 +89,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/auth/google/callback",
     passport.authenticate("google", { failureRedirect: "/login-failed" }),
     (req, res) => {
-      res.redirect("/dashboard");
+      res.redirect("/");
     }
   );
 

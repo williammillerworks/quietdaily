@@ -62,12 +62,11 @@ export default function Landing() {
           
           {/* Input Area */}
           <div className="w-full">
-            <div 
-              className="pb-3 border-b border-gray-200 cursor-pointer"
-              onClick={handleGoogleLogin}
-            >
-              <span className="text-base font-light text-gray-300">Enter today's daily</span>
-            </div>
+            <Link href="/memo/create">
+              <div className="pb-3 border-b border-gray-200 cursor-pointer">
+                <span className="text-base font-light text-gray-300">Enter today's daily</span>
+              </div>
+            </Link>
           </div>
         </div>
       </div>

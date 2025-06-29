@@ -99,11 +99,13 @@ export class DatabaseStorage implements IStorage {
 
   // Daily memo operations
   async getUserMemos(userId: number): Promise<DailyMemo[]> {
+    console.log('getUserMemos called for userId:', userId);
     const memos = await db
       .select()
       .from(dailyMemos)
       .where(eq(dailyMemos.userId, userId))
       .orderBy(desc(dailyMemos.date));
+    console.log('getUserMemos returned:', memos.length, 'memos');
     return memos;
   }
 

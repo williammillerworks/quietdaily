@@ -88,13 +88,15 @@ export default function Landing() {
   }
 
   return (
-    <div className="min-h-screen bg-white flex flex-col max-w-[800px] mx-auto px-8 md:px-16">
+    <div className="min-h-screen flex flex-col container animate-fade-in" style={{ background: 'var(--bg-primary)' }}>
       {/* Header */}
       <div className="flex justify-between items-start pt-8 pb-12">
-        <h1 className="text-lg font-light text-gray-500">Quieted</h1>
+        <h1 className="text-gradient" style={{ fontSize: 'var(--text-xl)', fontWeight: '600' }}>
+          Quieted
+        </h1>
         <button
           onClick={handleLogout}
-          className="text-sm font-light text-gray-500 hover:text-gray-600 transition-colors"
+          className="btn-ghost"
         >
           Log out
         </button>
@@ -102,24 +104,74 @@ export default function Landing() {
 
       {/* Main Content */}
       <div className="flex-1">
-        <div className="space-y-3">
+        <div className="space-y-4">
           {/* Today's memo entry */}
           <div className="w-full">
             {todayMemo ? (
               <Link href="/memo/view">
-                <div className="pb-3 border-b border-gray-200 cursor-pointer">
+                <div className="card p-6 animate-slide-up cursor-pointer">
                   <div className="flex justify-between items-start">
-                    <h3 className="text-base font-normal text-gray-600">{todayMemo.title}</h3>
-                    <span className="text-sm font-normal text-gray-500">{formatDate(new Date())}</span>
+                    <h3 
+                      className="font-medium"
+                      style={{ 
+                        fontSize: 'var(--text-base)', 
+                        color: 'var(--text-primary)',
+                        lineHeight: '1.5'
+                      }}
+                    >
+                      {todayMemo.title}
+                    </h3>
+                    <span 
+                      className="font-medium ml-4 flex-shrink-0"
+                      style={{ 
+                        fontSize: 'var(--text-sm)', 
+                        color: 'var(--text-tertiary)' 
+                      }}
+                    >
+                      {formatDate(new Date())}
+                    </span>
+                  </div>
+                  <div className="mt-2">
+                    <div 
+                      className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium"
+                      style={{ 
+                        background: 'var(--primary-light)', 
+                        color: 'var(--primary)' 
+                      }}
+                    >
+                      Today
+                    </div>
                   </div>
                 </div>
               </Link>
             ) : (
               <Link href="/memo/create">
-                <div className="pb-3 border-b border-gray-200 cursor-pointer">
+                <div className="card p-6 animate-slide-up cursor-pointer border-dashed" style={{ borderColor: 'var(--gray-300)' }}>
                   <div className="flex justify-between items-center">
-                    <span className="text-base font-normal text-gray-500">Enter today's daily</span>
-                    <span className="text-sm font-normal text-gray-500">{formatDate(new Date())}</span>
+                    <span 
+                      className="font-medium"
+                      style={{ 
+                        fontSize: 'var(--text-base)', 
+                        color: 'var(--text-muted)' 
+                      }}
+                    >
+                      Enter today's daily
+                    </span>
+                    <span 
+                      className="font-medium"
+                      style={{ 
+                        fontSize: 'var(--text-sm)', 
+                        color: 'var(--text-tertiary)' 
+                      }}
+                    >
+                      {formatDate(new Date())}
+                    </span>
+                  </div>
+                  <div className="mt-3 flex items-center" style={{ color: 'var(--text-muted)' }}>
+                    <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                    </svg>
+                    <span style={{ fontSize: 'var(--text-xs)' }}>Click to add your daily memo</span>
                   </div>
                 </div>
               </Link>
@@ -127,16 +179,47 @@ export default function Landing() {
           </div>
 
           {/* Previous memos */}
-          {memos?.filter((memo: DailyMemo) => memo.date !== todayDateString).map((memo: DailyMemo) => (
+          {memos?.filter((memo: DailyMemo) => memo.date !== todayDateString).map((memo: DailyMemo, index) => (
             <div key={memo.id} className="w-full">
               <Link href={`/memo/view/${memo.date}`}>
-                <div className="pb-3 border-b border-gray-200 cursor-pointer">
+                <div 
+                  className="card p-6 cursor-pointer animate-slide-up"
+                  style={{ animationDelay: `${index * 50}ms` }}
+                >
                   <div className="flex justify-between items-start">
-                    <h3 className="text-base font-normal text-gray-600">{memo.title}</h3>
-                    <span className="text-sm font-normal text-gray-500">
+                    <h3 
+                      className="font-medium"
+                      style={{ 
+                        fontSize: 'var(--text-base)', 
+                        color: 'var(--text-primary)',
+                        lineHeight: '1.5'
+                      }}
+                    >
+                      {memo.title}
+                    </h3>
+                    <span 
+                      className="font-medium ml-4 flex-shrink-0"
+                      style={{ 
+                        fontSize: 'var(--text-sm)', 
+                        color: 'var(--text-tertiary)' 
+                      }}
+                    >
                       {formatDate(new Date(memo.date + 'T00:00:00'))}
                     </span>
                   </div>
+                  {memo.link && (
+                    <div className="mt-2">
+                      <div 
+                        className="inline-flex items-center text-xs"
+                        style={{ color: 'var(--accent)' }}
+                      >
+                        <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                        </svg>
+                        Link attached
+                      </div>
+                    </div>
+                  )}
                 </div>
               </Link>
             </div>

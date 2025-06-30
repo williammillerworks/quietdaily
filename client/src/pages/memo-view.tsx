@@ -58,24 +58,27 @@ export default function MemoView({ memoDate }: MemoViewProps) {
   }
 
   return (
-    <div className="min-h-screen bg-white max-w-[800px] mx-auto px-8 md:px-16">
+    <div className="min-h-screen container animate-fade-in" style={{ background: 'var(--bg-primary)' }}>
       {/* Header with back button */}
       <div className="flex items-center pt-8 pb-12">
         <button
           onClick={() => setLocation("/")}
-          className="text-gray-500 hover:text-gray-600 transition-colors mr-4"
+          className="btn-ghost mr-2 p-2"
+          style={{ borderRadius: 'var(--radius-md)' }}
         >
-          <ArrowLeft className="h-5 w-5" />
+          <ArrowLeft style={{ width: '1.25rem', height: '1.25rem', color: 'var(--text-secondary)' }} />
         </button>
         <div className="flex-1 flex justify-between items-center">
-          <span className="text-lg font-light text-gray-500">Quieted</span>
+          <h1 className="text-gradient" style={{ fontSize: 'var(--text-xl)', fontWeight: '600' }}>
+            Quieted
+          </h1>
           <div className="flex items-center space-x-4">
-            <span className="text-sm font-light text-gray-500">
+            <span style={{ fontSize: 'var(--text-sm)', color: 'var(--text-tertiary)', fontWeight: '500' }}>
               {formatDisplayDate(displayDate)}
             </span>
             <button
               onClick={() => setLocation(memoDate ? `/memo/edit/${memoDate}` : "/memo/edit")}
-              className="text-sm font-light text-gray-500 hover:text-gray-600 transition-colors"
+              className="btn-ghost"
             >
               Edit
             </button>
@@ -84,31 +87,68 @@ export default function MemoView({ memoDate }: MemoViewProps) {
       </div>
 
       {/* Content */}
-      <div className="space-y-8">
+      <div className="card p-8 animate-slide-up">
         {/* Title */}
-        <div>
-          <h1 className="text-xl font-light text-gray-700 pb-3 border-b border-gray-200">
+        <div className="mb-8">
+          <h1 
+            style={{ 
+              fontSize: 'var(--text-2xl)', 
+              fontWeight: '600',
+              color: 'var(--text-primary)',
+              lineHeight: '1.4'
+            }}
+          >
             {memo.title}
           </h1>
         </div>
 
         {/* Link */}
         {memo.link && (
-          <div>
-            <a 
-              href={memo.link} 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-base font-light text-blue-500 hover:text-blue-600 transition-colors pb-3 border-b border-gray-200 block"
+          <div className="mb-8">
+            <div 
+              className="inline-flex items-center p-4 rounded-lg"
+              style={{ 
+                background: 'var(--bg-secondary)',
+                border: '1px solid var(--gray-200)'
+              }}
             >
-              {memo.link}
-            </a>
+              <svg 
+                className="w-5 h-5 mr-3" 
+                fill="none" 
+                stroke="currentColor" 
+                viewBox="0 0 24 24"
+                style={{ color: 'var(--accent)' }}
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+              </svg>
+              <a 
+                href={memo.link} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="hover:underline"
+                style={{ 
+                  fontSize: 'var(--text-sm)',
+                  color: 'var(--accent)',
+                  fontWeight: '500'
+                }}
+              >
+                {memo.link}
+              </a>
+            </div>
           </div>
         )}
 
         {/* Content */}
         <div>
-          <div className="text-base font-light text-gray-700 whitespace-pre-wrap leading-relaxed">
+          <div 
+            className="whitespace-pre-wrap"
+            style={{ 
+              fontSize: 'var(--text-base)', 
+              color: 'var(--text-primary)',
+              lineHeight: '1.7',
+              fontWeight: '400'
+            }}
+          >
             {memo.content}
           </div>
         </div>

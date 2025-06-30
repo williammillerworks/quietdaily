@@ -69,7 +69,7 @@ export default function MemoView({ memoDate }: MemoViewProps) {
           <ArrowLeft style={{ width: '1.25rem', height: '1.25rem', color: 'var(--text-secondary)' }} />
         </button>
         <div className="flex-1 flex justify-between items-center">
-          <h1 className="text-gradient" style={{ fontSize: 'var(--text-xl)', fontWeight: '600' }}>
+          <h1 className="text-primary" style={{ fontSize: 'var(--text-xl)', fontWeight: '600' }}>
             Quieted
           </h1>
           <div className="flex items-center space-x-4">
@@ -117,7 +117,7 @@ export default function MemoView({ memoDate }: MemoViewProps) {
                 fill="none" 
                 stroke="currentColor" 
                 viewBox="0 0 24 24"
-                style={{ color: 'var(--accent)' }}
+                style={{ color: 'var(--gray-500)' }}
               >
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
               </svg>
@@ -128,7 +128,7 @@ export default function MemoView({ memoDate }: MemoViewProps) {
                 className="hover:underline"
                 style={{ 
                   fontSize: 'var(--text-sm)',
-                  color: 'var(--accent)',
+                  color: 'var(--gray-700)',
                   fontWeight: '500'
                 }}
               >

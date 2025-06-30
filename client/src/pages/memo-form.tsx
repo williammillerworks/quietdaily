@@ -88,55 +88,79 @@ export default function MemoForm({ mode, memoDate }: MemoFormProps) {
   const isFormValid = title?.trim() && content?.trim();
 
   return (
-    <div className="min-h-screen bg-white max-w-[800px] mx-auto px-8 md:px-16">
+    <div className="min-h-screen container animate-fade-in" style={{ background: 'var(--bg-primary)' }}>
       {/* Header with back button */}
       <div className="flex items-center pt-8 pb-12">
         <button
           onClick={() => setLocation("/")}
-          className="text-gray-500 hover:text-gray-600 transition-colors mr-4"
+          className="btn-ghost mr-2 p-2"
+          style={{ borderRadius: 'var(--radius-md)' }}
         >
-          <ArrowLeft className="h-5 w-5" />
+          <ArrowLeft style={{ width: '1.25rem', height: '1.25rem', color: 'var(--text-secondary)' }} />
         </button>
         <div className="flex-1 flex justify-between items-center">
-          <span className="text-lg font-light text-gray-500">Quieted</span>
-          <span className="text-sm font-light text-gray-500">
+          <h1 className="text-primary" style={{ fontSize: 'var(--text-xl)', fontWeight: '600' }}>
+            Quieted
+          </h1>
+          <span style={{ fontSize: 'var(--text-sm)', color: 'var(--text-tertiary)', fontWeight: '500' }}>
             {formatDisplayDate(displayDate)}
           </span>
         </div>
       </div>
 
       {/* Form */}
-      <div className="space-y-8">
-        {/* Title Input */}
-        <div>
-          <Input
-            type="text"
-            placeholder="Title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className="text-base font-light border-0 border-b border-gray-200 rounded-none bg-transparent px-0 py-3 focus-visible:ring-0 focus-visible:border-gray-300 placeholder:text-gray-500"
-          />
-        </div>
+      <div className="card p-8 animate-slide-up">
+        <div className="space-y-8">
+          {/* Title Input */}
+          <div>
+            <Input
+              type="text"
+              placeholder="Title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              className="border-0 border-b rounded-none bg-transparent px-0 py-4 focus-visible:ring-0 placeholder:text-muted-foreground"
+              style={{
+                fontSize: 'var(--text-lg)',
+                fontWeight: '500',
+                borderBottomColor: 'var(--gray-200)',
+                color: 'var(--text-primary)'
+              }}
+            />
+          </div>
 
-        {/* Link Input */}
-        <div>
-          <Input
-            type="text"
-            placeholder="Link"
-            value={link}
-            onChange={(e) => setLink(e.target.value)}
-            className="text-base font-light border-0 border-b border-gray-200 rounded-none bg-transparent px-0 py-3 focus-visible:ring-0 focus-visible:border-gray-300 placeholder:text-gray-500"
-          />
-        </div>
+          {/* Link Input */}
+          <div>
+            <Input
+              type="text"
+              placeholder="Link (optional)"
+              value={link}
+              onChange={(e) => setLink(e.target.value)}
+              className="border-0 border-b rounded-none bg-transparent px-0 py-4 focus-visible:ring-0 placeholder:text-muted-foreground"
+              style={{
+                fontSize: 'var(--text-base)',
+                fontWeight: '400',
+                borderBottomColor: 'var(--gray-200)',
+                color: 'var(--text-primary)'
+              }}
+            />
+          </div>
 
-        {/* Content Textarea */}
-        <div className="flex-1">
-          <Textarea
-            placeholder="Contents"
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            className="min-h-[300px] text-base font-light border-0 border-b border-gray-200 rounded-none bg-transparent px-0 py-3 resize-none focus-visible:ring-0 focus-visible:border-gray-300 placeholder:text-gray-500"
-          />
+          {/* Content Textarea */}
+          <div className="flex-1">
+            <Textarea
+              placeholder="Write your daily memo..."
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              className="min-h-[300px] border-0 border-b rounded-none bg-transparent px-0 py-4 resize-none focus-visible:ring-0 placeholder:text-muted-foreground"
+              style={{
+                fontSize: 'var(--text-base)',
+                fontWeight: '400',
+                lineHeight: '1.7',
+                borderBottomColor: 'var(--gray-200)',
+                color: 'var(--text-primary)'
+              }}
+            />
+          </div>
         </div>
       </div>
 
@@ -145,11 +169,12 @@ export default function MemoForm({ mode, memoDate }: MemoFormProps) {
         <button
           onClick={handleSave}
           disabled={!isFormValid || saveMutation.isPending}
-          className={`px-6 py-2 text-sm font-light transition-colors ${
-            isFormValid 
-              ? "bg-gray-300 hover:bg-gray-400 text-white" 
-              : "bg-gray-100 text-gray-300 cursor-not-allowed"
-          }`}
+          className={`btn-primary ${!isFormValid ? 'opacity-50 cursor-not-allowed' : ''}`}
+          style={{ 
+            padding: 'var(--space-3) var(--space-6)',
+            fontSize: 'var(--text-sm)',
+            fontWeight: '500'
+          }}
         >
           {saveMutation.isPending ? "Saving..." : "Save"}
         </button>

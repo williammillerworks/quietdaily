@@ -72,16 +72,10 @@ export default function MemoView({ memoDate }: MemoViewProps) {
           <h1 className="text-primary" style={{ fontSize: 'var(--text-xl)', fontWeight: '600' }}>
             Quieted
           </h1>
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center">
             <span style={{ fontSize: 'var(--text-sm)', color: 'var(--text-tertiary)', fontWeight: '500' }}>
               {formatDisplayDate(displayDate)}
             </span>
-            <button
-              onClick={() => setLocation(memoDate ? `/memo/edit/${memoDate}` : "/memo/edit")}
-              className="btn-ghost"
-            >
-              Edit
-            </button>
           </div>
         </div>
       </div>

@@ -135,7 +135,26 @@ Changelog:
 ```
 Preferred communication style: Simple, everyday language.
 Git configuration: Always use williammillerworks <william.miller.works@gmail.com> for commits.
-To prevent attribution issues, set global git config:
-  git config --global user.name "williammillerworks"
-  git config --global user.email "william.miller.works@gmail.com"
+
+For correct git attribution in Replit environment:
+1. Set global git config:
+   git config --global user.name "williammillerworks"
+   git config --global user.email "william.miller.works@gmail.com"
+
+2. To fix existing commits with wrong attribution, use:
+   export GIT_AUTHOR_NAME="williammillerworks"
+   export GIT_AUTHOR_EMAIL="william.miller.works@gmail.com"
+   export GIT_COMMITTER_NAME="williammillerworks"
+   export GIT_COMMITTER_EMAIL="william.miller.works@gmail.com"
+   git filter-branch -f --env-filter '
+   if [ "$GIT_AUTHOR_NAME" = "williammillerwo" ]; then
+       export GIT_AUTHOR_NAME="williammillerworks"
+       export GIT_AUTHOR_EMAIL="william.miller.works@gmail.com"
+   fi
+   if [ "$GIT_COMMITTER_NAME" = "williammillerwo" ]; then
+       export GIT_COMMITTER_NAME="williammillerworks"
+       export GIT_COMMITTER_EMAIL="william.miller.works@gmail.com"
+   fi
+   ' -- --all
+   git push --force origin main
 ```

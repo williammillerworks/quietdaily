@@ -37,7 +37,7 @@ export default function MemoForm({ mode, memoDate }: MemoFormProps) {
   const targetDate = memoDate || getTodayDate();
   const displayDate = new Date(targetDate + 'T00:00:00');
 
-  // Check if user is authenticated
+  // Check if user is authenticated (optional for form access)
   const { data: user } = useQuery({
     queryKey: ["/api/auth/me"],
     queryFn: getQueryFn({ on401: "returnNull" }),

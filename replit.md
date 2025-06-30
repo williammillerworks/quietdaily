@@ -124,6 +124,10 @@ Changelog:
 - June 29, 2025. Reduced memo list spacing from 32px to 12px for tighter layout
 - June 29, 2025. Changed font weight from 300 (font-light) to 400 (font-normal) for better readability
 - June 29, 2025. Fixed React Query URL construction for individual memo API calls
+- June 30, 2025. Implemented OpenAI-inspired minimal design system with Inter font and black/white/gray palette
+- June 30, 2025. Updated authentication flow: users can now start writing without signing in
+- June 30, 2025. Google auth triggers only on save, with automatic account creation and memo conflict handling
+- June 30, 2025. Removed edit button from memo view and "Link attached" indicators for cleaner interface
 ```
 
 ## User Preferences

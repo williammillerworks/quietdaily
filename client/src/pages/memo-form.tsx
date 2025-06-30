@@ -68,10 +68,54 @@ export default function MemoForm({ mode, memoDate }: MemoFormProps) {
     },
   });
 
+  // Check for pending memo after authentication
+  useEffect(() => {
+    if (user) {
+      const pendingMemo = localStorage.getItem('pendingMemo');
+      if (pendingMemo) {
+        const memoData = JSON.parse(pendingMemo);
+        localStorage.removeItem('pendingMemo');
+        
+        // Check if today's memo already exists
+        if (existingMemo && existingMemo.date === memoData.date) {
+          // Memo conflict - ask user what to do
+          const shouldReplace = window.confirm(
+            "You already have a memo for today. Do you want to replace it with the new one?\n\n" +
+            "Click 'OK' to replace the existing memo, or 'Cancel' to keep the existing one and discard the new memo."
+          );
+          
+          if (shouldReplace) {
+            setTitle(memoData.title);
+            setLink(memoData.link || "");
+            setContent(memoData.content);
+            // Auto-save the new memo
+            saveMutation.mutate(memoData);
+          }
+          // If user cancels, discard the pending memo (do nothing)
+        } else {
+          // No conflict, save the pending memo
+          setTitle(memoData.title);
+          setLink(memoData.link || "");
+          setContent(memoData.content);
+          saveMutation.mutate(memoData);
+        }
+      }
+    }
+  }, [user, existingMemo, saveMutation]);
+
   const handleSave = () => {
     if (title?.trim() && content?.trim()) {
       if (!user) {
-        // If user is not authenticated, redirect to Google auth
+        // Store memo data for after authentication
+        const memoData = {
+          title: title.trim(),
+          link: link?.trim() || undefined,
+          content: content.trim(),
+          date: targetDate,
+        };
+        localStorage.setItem('pendingMemo', JSON.stringify(memoData));
+        
+        // Redirect to Google auth
         window.location.href = authService.getGoogleAuthUrl();
       } else {
         // User is authenticated, save the memo

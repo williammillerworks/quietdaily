@@ -4,6 +4,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Link } from "wouter";
 import { getQueryFn, apiRequest } from "@/lib/queryClient";
 import type { DailyMemo } from "@shared/schema";
+import { useState, useEffect } from "react";
 
 function formatDate(date: Date): string {
   return date.toLocaleDateString('en-US', {
@@ -17,8 +18,31 @@ function getTodayDate(): string {
   return new Date().toISOString().split('T')[0];
 }
 
+// Animated text phrases for the landing page
+const animatedPhrases = [
+  "Enter today's daily",
+  "What's on your mind?",
+  "Capture this moment",
+  "Today's thoughts",
+  "Write your story",
+  "Document your day",
+  "Share your reflection"
+];
+
 export default function Landing() {
   const queryClient = useQueryClient();
+  const [currentPhraseIndex, setCurrentPhraseIndex] = useState(0);
+  
+  // Cycle through animated phrases every 3 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentPhraseIndex((prevIndex) => 
+        (prevIndex + 1) % animatedPhrases.length
+      );
+    }, 3000);
+    
+    return () => clearInterval(interval);
+  }, []);
   
   const { data: user } = useQuery({
     queryKey: ["/api/auth/me"],
@@ -79,15 +103,21 @@ export default function Landing() {
             <Link href="/memo/create">
               <div className="card p-6 animate-slide-up cursor-pointer border-dashed" style={{ borderColor: 'var(--gray-300)' }}>
                 <div className="flex justify-between items-center">
-                <span 
-                  className="font-medium"
-                  style={{ 
-                    fontSize: 'var(--text-base)', 
-                    color: 'var(--text-muted)' 
-                  }}
-                >
-                  Enter today's daily
-                </span>
+                <div className="relative overflow-hidden h-6" style={{ fontSize: 'var(--text-base)' }}>
+                  <div 
+                    className="transition-transform ease-in-out duration-500 font-medium"
+                    style={{ 
+                      transform: `translateY(${-currentPhraseIndex * 1.5}rem)`,
+                      color: 'var(--text-muted)'
+                    }}
+                  >
+                    {animatedPhrases.map((phrase, index) => (
+                      <div key={index} className="h-6 flex items-center">
+                        {phrase}
+                      </div>
+                    ))}
+                  </div>
+                </div>
                 <span 
                   className="font-medium"
                   style={{ 

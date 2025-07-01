@@ -192,12 +192,6 @@ export default function Landing() {
                       {formatDate(new Date())}
                     </span>
                   </div>
-                  <div className="mt-3 flex items-center" style={{ color: 'var(--text-muted)' }}>
-                    <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                    </svg>
-                    <span style={{ fontSize: 'var(--text-xs)' }}>Click to add your daily memo</span>
-                  </div>
                 </div>
               </Link>
             )}
